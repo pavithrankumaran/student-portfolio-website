@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A responsive student portfolio showcasing education, skills, projects and achievements.">
+  <title>Student Portfolio | Your Name</title>
+  <style>
+    :root {
+      --bg: #0b1020; --panel: #121a30; --panel2: #17213a; --text: #f3f6ff;
+      --muted: #aab5d0; --accent: #7c9cff; --accent2: #56e0c2; --line: #283453;
+      --shadow: 0 18px 50px rgba(0,0,0,.22);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+    body { margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--text); background: radial-gradient(circle at 85% 0%, #1a2750 0, transparent 32rem), var(--bg); line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea { font: inherit; }
+    .container { width: min(1100px, calc(100% - 40px)); margin-inline: auto; }
+    .nav-wrap { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(16px); background: rgba(11,16,32,.82); border-bottom: 1px solid rgba(124,156,255,.15); }
+    nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .logo { font-weight: 850; letter-spacing: -.04em; font-size: 1.2rem; }
+    .logo span { color: var(--accent2); }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-links a { color: var(--muted); font-size: .94rem; transition: color .2s; }
+    .nav-links a:hover, .nav-links a:focus-visible { color: var(--text); }
+    .menu-toggle { display: none; border: 1px solid var(--line); color: var(--text); background: var(--panel); border-radius: 10px; padding: 8px 11px; cursor: pointer; }
+    .hero { display: grid; grid-template-columns: 1.35fr .65fr; align-items: center; gap: 55px; padding: 88px 0 78px; min-height: 560px; }
+    .eyebrow { display: inline-flex; gap: 9px; align-items: center; color: var(--accent2); font-size: .83rem; font-weight: 750; letter-spacing: .13em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 24px; height: 2px; background: var(--accent2); }
+    h1 { font-size: clamp(2.7rem, 6vw, 5rem); line-height: 1.03; letter-spacing: -.06em; margin: 18px 0; }
+    h1 span { color: var(--accent); }
+    .hero p { max-width: 630px; color: var(--muted); font-size: 1.08rem; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; border: 1px solid var(--line); border-radius: 12px; padding: 11px 17px; font-weight: 750; cursor: pointer; transition: transform .2s, background .2s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--accent); color: #0a1024; border-color: var(--accent); }
+    .btn-ghost { background: rgba(255,255,255,.03); }
+    .profile-card { background: linear-gradient(145deg, rgba(124,156,255,.17), rgba(86,224,194,.06)); border: 1px solid rgba(124,156,255,.25); border-radius: 28px; padding: 26px; box-shadow: var(--shadow); transform: rotate(2deg); }
+    .avatar { width: 100%; aspect-ratio: 1; border-radius: 20px; display: grid; place-items: center; background: linear-gradient(145deg, #273a72, #15213e); font-size: clamp(4rem, 9vw, 7rem); }
+    .profile-card h2 { margin: 18px 0 2px; font-size: 1.35rem; }
+    .profile-card p { color: var(--muted); margin: 0; font-size: .95rem; }
+    .mini-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 20px; }
+    .mini-stats div { background: rgba(11,16,32,.55); border-radius: 12px; padding: 12px 8px; text-align: center; }
+    .mini-stats strong { display: block; font-size: 1.2rem; color: var(--accent2); }
+    .mini-stats span { color: var(--muted); font-size: .72rem; }
+    section { padding: 66px 0; }
+    .section-head { margin-bottom: 28px; }
+    .section-head h2 { font-size: clamp(1.9rem, 4vw, 2.7rem); letter-spacing: -.045em; margin: 8px 0; }
+    .section-head p { color: var(--muted); max-width: 650px; margin: 0; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+    .card { background: rgba(18,26,48,.86); border: 1px solid var(--line); border-radius: 18px; padding: 24px; box-shadow: var(--shadow); }
+    .card h3 { margin: 0 0 8px; }
+    .card p { color: var(--muted); margin: 0; }
+    .info-list { display: grid; gap: 13px; margin-top: 18px; }
+    .info-row { display: flex; gap: 12px; align-items: flex-start; }
+    .info-row b { min-width: 105px; color: #dce4ff; }
+    .info-row span { color: var(--muted); }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 16px; }
+    .tag { display: inline-flex; border: 1px solid #34446d; background: #1a2645; color: #dce5ff; padding: 6px 10px; border-radius: 999px; font-size: .84rem; }
+    .skill { margin-top: 18px; }
+    .skill-top { display: flex; justify-content: space-between; gap: 12px; color: #e6ebff; font-size: .92rem; margin-bottom: 7px; }
+    .track { height: 8px; border-radius: 99px; background: #26314e; overflow: hidden; }
+    .fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--accent), var(--accent2)); transform-origin: left; animation: grow 1.2s ease both; }
+    @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    .filters { display: flex; flex-wrap: wrap; gap: 9px; margin: 0 0 22px; }
+    .filter-btn { border: 1px solid var(--line); background: var(--panel); color: var(--muted); border-radius: 999px; padding: 8px 14px; cursor: pointer; }
+    .filter-btn.active, .filter-btn:hover { color: #091020; background: var(--accent2); border-color: var(--accent2); }
+    .project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .project-card { display: flex; flex-direction: column; min-height: 255px; }
+    .project-icon { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: #202e52; font-size: 1.45rem; margin-bottom: 16px; }
+    .project-card h3 { margin: 0 0 8px; }
+    .project-card p { color: var(--muted); font-size: .93rem; flex: 1; }
+    .project-meta { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0 16px; }
+    .project-meta .tag { font-size: .72rem; padding: 3px 8px; }
+    .project-links { display: flex; gap: 14px; font-weight: 750; font-size: .9rem; }
+    .project-links a { color: var(--accent2); }
+    .project-links a:hover { text-decoration: underline; }
+    .achievement { display: flex; gap: 14px; align-items: flex-start; }
+    .achievement .medal { font-size: 1.5rem; }
+    .achievement + .achievement { margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--line); }
+    form { display: grid; gap: 15px; }
+    .field { display: grid; gap: 7px; }
+    label { font-size: .92rem; font-weight: 700; color: #e2e8ff; }
+    input, textarea { width: 100%; border: 1px solid #34415f; border-radius: 11px; padding: 12px 13px; background: #0d1428; color: var(--text); outline: none; }
+    input:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(124,156,255,.13); }
+    textarea { min-height: 125px; resize: vertical; }
+    .form-note { color: var(--muted); font-size: .83rem; margin: 0; }
+    .status { display: none; border-radius: 10px; padding: 10px 12px; background: rgba(86,224,194,.1); color: var(--accent2); }
+    footer { border-top: 1px solid var(--line); padding: 26px 0; color: var(--muted); font-size: .9rem; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } .reveal { opacity: 1; transform: none; } }
+    @media (max-width: 850px) {
+      .hero { grid-template-columns: 1fr .65fr; gap: 28px; padding: 65px 0; }
+      .project-grid { grid-template-columns: repeat(2, 1fr); }
+      .nav-links { gap: 14px; }
+    }
+    @media (max-width: 650px) {
+      .container { width: min(100% - 30px, 540px); }
+      .menu-toggle { display: inline-flex; }
+      .nav-links { display: none; position: absolute; top: 71px; left: 0; right: 0; padding: 18px 22px 22px; background: #0e1529; border-bottom: 1px solid var(--line); flex-direction: column; align-items: stretch; }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 7px 0; }
+      .hero { grid-template-columns: 1fr; padding: 58px 0 40px; gap: 35px; }
+      .profile-card { max-width: 340px; transform: none; margin-inline: auto; }
+      section { padding: 48px 0; }
+      .grid-2, .project-grid { grid-template-columns: 1fr; }
+      .info-row { display: grid; gap: 2px; }
+      .mini-stats span { font-size: .67rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav-wrap">
+    <nav class="container" aria-label="Main navigation">
+      <a class="logo" href="#home" aria-label="Portfolio home">student<span>.dev</span></a>
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="navLinks">☰ Menu</button>
+      <div class="nav-links" id="navLinks">
+        <a href="#about">About</a><a href="#education">Education</a><a href="#skills">Skills</a><a href="#projects">Projects</a><a href="#achievements">Achievements</a><a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="container hero" id="home">
+      <div class="reveal">
+        <div class="eyebrow">Student • Developer • Learner</div>
+        <h1>Hello, I'm<br><span contenteditable="true" aria-label="Edit your name">Your Name</span>.</h1>
+        <p>A curious student passionate about building useful digital experiences, learning new technologies, and turning ideas into practical projects.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#projects">Explore my work ↗</a>
+          <button class="btn btn-ghost" id="downloadResume">↓ Download resume</button>
+        </div>
+      </div>
+      <aside class="profile-card reveal" aria-label="Student profile card">
+        <div class="avatar" aria-hidden="true">👨‍💻</div>
+        <h2 contenteditable="true">Student Developer</h2>
+        <p contenteditable="true">BCA Student · Your College</p>
+        <div class="mini-stats">
+          <div><strong id="projectCount">04</strong><span>Projects</span></div>
+          <div><strong>05+</strong><span>Skills</span></div>
+          <div><strong>∞</strong><span>Curiosity</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="section-head reveal"><div class="eyebrow">A little about me</div><h2>About Me</h2><p>My goal is to keep learning, solve real problems, and grow through hands-on experience.</p></div>
+        <div class="grid-2">
+          <article class="card reveal"><h3>Who I am</h3><p contenteditable="true">I am a motivated college student interested in web development, programming, and technology. I enjoy learning by building projects and working with others to bring ideas to life. Replace this paragraph with your own introduction.</p></article>
+          <article class="card reveal"><h3>Quick information</h3><div class="info-list">
+            <div class="info-row"><b>Course</b><span contenteditable="true">BCA — Bachelor of Computer Applications</span></div>
+            <div class="info-row"><b>College</b><span contenteditable="true">Your College Name</span></div>
+            <div class="info-row"><b>Location</b><span contenteditable="true">Tamil Nadu, India</span></div>
+            <div class="info-row"><b>Email</b><span contenteditable="true">your.email@example.com</span></div>
+          </div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="education">
+      <div class="container">
+        <div class="section-head reveal"><div class="eyebrow">My learning journey</div><h2>Education</h2><p>My academic background and the knowledge I am building along the way.</p></div>
+        <article class="card reveal">
+          <h3 contenteditable="true">Bachelor of Computer Applications (BCA)</h3>
+          <p contenteditable="true">Your College Name · 2025 – Present</p>
+          <div class="tag-list"><span class="tag">Programming</span><span class="tag">Web Development</span><span class="tag">Computer Applications</span></div>
+          <p style="margin-top:15px" contenteditable="true">Relevant areas: programming fundamentals, problem solving, web technologies, data structures, and office applications. Update this with your real coursework and dates.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="container">
+        <div class="section-head reveal"><div class="eyebrow">What I work with</div><h2>Technical Skills</h2><p>Replace the sample skill levels with your honest current confidence.</p></div>
+        <div class="grid-2">
+          <article class="card reveal">
+            <h3>Programming & Web</h3>
+            <div class="skill"><div class="skill-top"><span>HTML & CSS</span><span>75%</span></div><div class="track"><div class="fill" style="width:75%"></div></div></div>
+            <div class="skill"><div class="skill-top"><span>JavaScript</span><span>55%</span></div><div class="track"><div class="fill" style="width:55%"></div></div></div>
+            <div class="skill"><div class="skill-top"><span>Python</span><span>70%</span></div><div class="track"><div class="fill" style="width:70%"></div></div></div>
+          </article>
+          <article class="card reveal">
+            <h3>Tools & Strengths</h3>
+            <div class="tag-list"><span class="tag">Problem Solving</span><span class="tag">Responsive Design</span><span class="tag">Git / GitHub</span><span class="tag">Debugging</span><span class="tag">Teamwork</span><span class="tag">Communication</span></div>
+            <p style="margin-top:18px">Tip: only list tools and technologies you can explain during a judging or interview round.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="container">
+        <div class="section-head reveal"><div class="eyebrow">Things I've built</div><h2>Featured Projects</h2><p>Use the filters to explore projects by technology or category. Edit project data in <code>script.js</code>.</p></div>
+        <div class="filters reveal" id="projectFilters" aria-label="Filter projects"></div>
+        <div class="project-grid" id="projectGrid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="achievements">
+      <div class="container">
+        <div class="section-head reveal"><div class="eyebrow">Milestones</div><h2>Achievements & Activities</h2><p>Add real achievements, certificates, workshops, volunteering, or team contributions.</p></div>
+        <article class="card reveal">
+          <div class="achievement"><div class="medal">🏅</div><div><h3 contenteditable="true">Hackathon Participant</h3><p contenteditable="true">Worked on a student portfolio website concept and practised building a responsive user interface. Replace with the actual event name and result.</p></div></div>
+          <div class="achievement"><div class="medal">📜</div><div><h3 contenteditable="true">Course / Certificate</h3><p contenteditable="true">Add a course, certificate, workshop, or technical achievement here, including the issuing organisation and year.</p></div></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="section-head reveal"><div class="eyebrow">Let's connect</div><h2>Contact Me</h2><p>Have a project idea, collaboration, or opportunity? Send a message below.</p></div>
+        <div class="grid-2">
+          <article class="card reveal"><h3>Contact details</h3><p>I'd be happy to connect with students, mentors, and developers.</p><div class="info-list">
+            <div class="info-row"><b>Email</b><span contenteditable="true">your.email@example.com</span></div>
+            <div class="info-row"><b>GitHub</b><span><a href="https://github.com/" target="_blank" rel="noopener">github.com/your-username ↗</a></span></div>
+            <div class="info-row"><b>LinkedIn</b><span><a href="https://www.linkedin.com/" target="_blank" rel="noopener">linkedin.com/in/your-profile ↗</a></span></div>
+          </div></article>
+          <article class="card reveal">
+            <form id="contactForm">
+              <div class="field"><label for="fullName">Full name *</label><input id="fullName" name="fullName" autocomplete="name" required minlength="2" placeholder="Enter your name"></div>
+              <div class="field"><label for="email">Email address *</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+              <div class="field"><label for="subject">Subject *</label><input id="subject" name="subject" required placeholder="What is this about?"></div>
+              <div class="field"><label for="message">Message *</label><textarea id="message" name="message" required minlength="10" placeholder="Write your message (at least 10 characters)"></textarea></div>
+              <button class="btn btn-primary" type="submit">Validate & prepare message ↗</button>
+              <p class="form-note">Demo note: this form validates your details in the browser. Connect a backend or form service to receive messages online.</p>
+              <div class="status" id="formStatus" role="status"></div>
+            </form>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="container footer-inner"><span>© <span id="year"></span> <span contenteditable="true">Your Name</span>. Built with curiosity.</span><a href="#home">Back to top ↑</a></div></footer>
+
+  <script>
+    // Edit this array to add, remove, or update project cards dynamically.
+    const projects = [
+      { title: "Student Portfolio Website", category: "Web", tech: ["HTML", "CSS", "JavaScript"], icon: "🧑‍🎓", description: "A responsive portfolio that presents education, skills, achievements, and projects in one professional place.", demo: "#", source: "#" },
+      { title: "Expense Tracker", category: "JavaScript", tech: ["HTML", "CSS", "JavaScript"], icon: "💸", description: "Track sample income and expenses, review spending categories, and understand a simple monthly budget.", demo: "#", source: "#" },
+      { title: "Online Quiz Application", category: "JavaScript", tech: ["HTML", "CSS", "JavaScript"], icon: "🧠", description: "An interactive quiz concept with multiple-choice questions, score calculation, and a results screen.", demo: "#", source: "#" },
+      { title: "Python Utility Tool", category: "Python", tech: ["Python"], icon: "🐍", description: "A small command-line utility designed to practise programming logic, input validation, and reusable functions.", demo: "#", source: "#" }
+    ];
+
+    const projectGrid = document.getElementById("projectGrid");
+    const projectFilters = document.getElementById("projectFilters");
+    const filterOptions = ["All", ...new Set(projects.flatMap(p => [p.category, ...p.tech]))];
+    let activeFilter = "All";
+
+    function renderFilters() {
+      projectFilters.innerHTML = "";
+      filterOptions.forEach(option => {
+        const button = document.createElement("button");
+        button.className = "filter-btn" + (option === activeFilter ? " active" : "");
+        button.type = "button";
+        button.textContent = option;
+        button.setAttribute("aria-pressed", String(option === activeFilter));
+        button.addEventListener("click", () => { activeFilter = option; renderFilters(); renderProjects(); });
+        projectFilters.appendChild(button);
+      });
+    }
+
+    function renderProjects() {
+      const filtered = projects.filter(p => activeFilter === "All" || p.category === activeFilter || p.tech.includes(activeFilter));
+      projectGrid.innerHTML = "";
+      filtered.forEach(project => {
+        const card = document.createElement("article");
+        card.className = "card project-card reveal";
+        const icon = document.createElement("div"); icon.className = "project-icon"; icon.textContent = project.icon;
+        const title = document.createElement("h3"); title.textContent = project.title;
+        const desc = document.createElement("p"); desc.textContent = project.description;
+        const meta = document.createElement("div"); meta.className = "project-meta";
+        project.tech.forEach(t => { const tag = document.createElement("span"); tag.className = "tag"; tag.textContent = t; meta.appendChild(tag); });
+        const links = document.createElement("div"); links.className = "project-links";
+        [["Live demo", project.demo], ["Source code", project.source]].forEach(([label, url]) => {
+          const a = document.createElement("a"); a.href = url; a.textContent = label + " ↗";
+          if (url === "#") { a.addEventListener("click", e => { e.preventDefault(); alert("Replace this # with your real project URL in script.js."); }); }
+          else { a.target = "_blank"; a.rel = "noopener"; }
+          links.appendChild(a);
+        });
+        card.append(icon, title, desc, meta, links); projectGrid.appendChild(card);
+      });
+      document.getElementById("projectCount").textContent = String(projects.length).padStart(2, "0");
+      observeReveals();
+    }
+
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+    menuToggle.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+    });
+    navLinks.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
+      navLinks.classList.remove("open"); menuToggle.setAttribute("aria-expanded", "false");
+    }));
+
+    function observeReveals() {
+      const items = document.querySelectorAll(".reveal:not(.visible)");
+      if (!("IntersectionObserver" in window)) { items.forEach(el => el.classList.add("visible")); return; }
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add("visible"); observer.unobserve(entry.target); } });
+      }, { threshold: 0.12 });
+      items.forEach(el => observer.observe(el));
+    }
+
+    // Creates a downloadable editable resume text file; replace sample details first.
+    document.getElementById("downloadResume").addEventListener("click", () => {
+      const resume = `YOUR NAME\nStudent Developer | BCA Student\nEmail: your.email@example.com | Location: Tamil Nadu, India\n\nPROFILE\nMotivated BCA student interested in programming, web development, and practical problem-solving.\n\nEDUCATION\nBachelor of Computer Applications (BCA)\nYour College Name | 2025 – Present\n\nTECHNICAL SKILLS\nHTML, CSS, JavaScript, Python, Problem Solving\n\nPROJECTS\nStudent Portfolio Website — Responsive portfolio showcasing education, skills, projects, and achievements.\nExpense Tracker — Sample income and expense tracking interface.\nOnline Quiz Application — Multiple-choice quiz with score calculation.\nPython Utility Tool — Small programming utility demonstrating logic and validation.\n\nACHIEVEMENTS\nAdd your real certificates, workshops, and achievements here.\n\nNOTE: Replace all sample details with your own accurate information before submitting.`;
+      const blob = new Blob([resume], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a"); a.href = url; a.download = "student-resume.txt"; a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById("contactForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const status = document.getElementById("formStatus");
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      const name = document.getElementById("fullName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const subject = document.getElementById("subject").value.trim();
+      const message = document.getElementById("message").value.trim();
+      if (name.length < 2 || message.length < 10) {
+        status.style.display = "block"; status.textContent = "Please enter a valid name and a message of at least 10 characters."; return;
+      }
+      status.style.display = "block";
+      status.textContent = "Your details are valid. This demo does not send messages yet; connect a backend to receive this message.";
+      // Optional: open the visitor's email app with the prepared message after replacing the address below.
+      // window.location.href = `mailto:your.email@example.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message + "\\n\\nFrom: " + name + " (" + email + ")")}`;
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+    renderFilters(); renderProjects(); observeReveals();
+  </script>
+</body>
+</html>
